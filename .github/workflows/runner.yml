@@ -1,0 +1,130 @@
+name: Desktop - runner
+on:
+  push:
+    branches-ignore:
+      - feature/ignore/**
+  pull_request:
+    branches-ignore:
+      - feature/ignore/**
+
+  workflow_dispatch:
+
+env:
+  EXECUTABLE: "cami"
+  CLCACHE_VERSION: v1
+  CLCACHE_MAX_SIZE: 500M
+
+jobs:
+  check_repository_cleanliness:
+    name: Check if the repository is clean and void of any unwanted files (temp, files, binary files, etc.)
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Scan files
+      run: |
+        arr=($(find . \( -name "#*#" -o -name "*~" \
+        -o -name "*.o" -o -name "*.a" -o -name "*.hi" \
+        -o -name "*.so" -o -name "*.gcno" -o -name "*.gcda" -o -name "*.gcov" \
+         -o -path '*tmp/*' -o -name "__pycache__" \)))
+        for i in ${arr[@]}; do echo "::error file=$i,line=1,endLine=1,title=Unwanted file detected::$i"; done
+        if ((${#arr[@]})); then
+          exit 1
+        fi
+
+  check_status_repos:
+    name: Check if all files are in the linter
+    needs: check_repository_cleanliness
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: install packages
+      run: |
+        sudo apt-get update -qq
+        sudo apt-get install -y clang-tidy-12 ccache
+        sudo update-alternatives --install /usr/bin/clang-tidy clang-tidy /usr/bin/clang-tidy-12 100
+        clang++ --version
+        clang-tidy --version
+    - name: run linter
+      run: clang-format -i --style='file:.clang-format' `find -name *.cpp -o -name *.hh -o -name *.hpp`
+
+
+  job_run_program:
+    name: Run cmake on ubuntu
+    needs: check_status_repos
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        build: [
+          {type: Debug, options: '-DCAMI_BUILD_TESTS=true -DUSE_CLANG_TIDY=false'},
+          {type: tsan, options: '-DUSE_CLANG_TIDY=false -DCAMI_BUILD_BENCHMARKS=true'},
+          {type: Release, options: '-DWARNING_FLAGS=-Wall -DUSE_CLANG_TIDY=false'}
+        ]
+        version: [g++13]
+        cpp: [20]
+    steps:
+
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - uses: extractions/setup-just@v1
+      with:
+        just-version: 0.8 # optional semver specification, otherwise latest
+
+    - name : Install packages
+      run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ninja-build clang-tidy-12 ccache
+          sudo update-alternatives --install /usr/bin/clang-tidy clang-tidy /usr/bin/clang-tidy-12 100
+          sudo apt-get install -y --no-install-recommends libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libdrm-dev libgbm-dev
+          clang++ --version
+          clang-tidy --version
+
+    - name: Cache build caches
+      uses: actions/cache@v4
+      with:
+        path: |
+          .ccache
+          .ctcache
+          ctcache
+        key: clcache-${{ env.CLCACHE_VERSION }}-${{ matrix.build.type }}-${{ github.run_id }}
+        restore-keys: clcache-${{ env.CLCACHE_VERSION }}-${{ matrix.build.type }}
+
+    - name: Configure compiler cache (ccache)
+      run: |
+        ccache --set-config=cache_dir=$GITHUB_WORKSPACE/.ccache
+        ccache --set-config=max_size=$CLCACHE_MAX_SIZE
+        ccache --set-config=compression=true
+        ccache --show-config
+
+    - name: Install newer Clang
+      run: |
+       wget https://apt.llvm.org/llvm.sh
+       chmod +x ./llvm.sh
+       sudo ./llvm.sh 17
+
+    - name: Compilation test
+      env:
+        BUILD_TYPE: ${{ matrix.build.type }}
+        CMAKE_OPTIONS: ${{ matrix.build.options }}
+      run: |
+          mkdir -p build && cd build
+          cmake .. -GNinja -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_C_COMPILER=clang-17 -DCMAKE_CXX_COMPILER=clang++-17 -DCMAKE_EXPORT_COMPILE_COMMANDS=true -DCMAKE_CXX_COMPILER_LAUNCHER=ccache $CMAKE_OPTIONS
+          ninja
+      shell: bash
+      timeout-minutes: 2
+
+    - name: Check executable files exists
+      run: |
+        IFS=',' read -ra ADDR <<< $EXECUTABLES
+        for i in "${ADDR[@]}"; do
+          if [[ ! -x "./${i}" ]]; then
+            exit 1
+          fi
+        done
