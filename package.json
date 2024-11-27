@@ -1,0 +1,23 @@
+{
+    "name": "cami",
+    "version": "0.0.1",
+    "description": "Desktop application for the renders of cellular algorithms",
+    "main": "src/main.js",
+    "scripts": {
+        "start": "electron .",
+        "test": "tests"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Cellular-Automaton/Desktop.git"
+    },
+    "author": "CAMI",
+    "license": "SEE LICENSE IN ./LICENSE",
+    "bugs": {
+        "url": "https://github.com/Cellular-Automaton/Desktop/issues"
+    },
+    "homepage": "https://github.com/Cellular-Automaton/Desktop#readme",
+    "devDependencies": {
+        "electron": "^33.2.0"
+    }
+}

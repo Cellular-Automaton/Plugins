@@ -1,2 +1,2 @@
 # Desktop
-Desktop application in c++
+Desktop application using electron
