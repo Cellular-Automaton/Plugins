@@ -2,9 +2,10 @@
     "name": "cami",
     "version": "0.0.1",
     "description": "Desktop application for the renders of cellular algorithms",
-    "main": "src/main.js",
+    "main": "build/main.js",
     "scripts": {
-        "start": "electron .",
+        "start": "npm run compile && electron .",
+        "compile": "tsc && cp -f src/index.html build",
         "test": "tests"
     },
     "repository": {
@@ -19,5 +20,8 @@
     "homepage": "https://github.com/Cellular-Automaton/Desktop#readme",
     "devDependencies": {
         "electron": "^33.2.0"
+    },
+    "dependencies": {
+        "typescript": "^5.7.2"
     }
 }
