@@ -197,6 +197,9 @@ message("${BoldWhite}Finished loading cami-core${ColourReset}")
 add_executable(
     dcami
     src/main.cpp
+    PLC/GameOfLife/src/GameOfLife.cpp
+    PLC/Wolfram/src/Wolfram.cpp
+    PLC/Lenia/src/Lenia.cpp
 )
 # link the libraries to executable
 target_link_libraries(
