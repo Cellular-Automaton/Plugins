@@ -63,3 +63,13 @@ size_t PLC::Wolfram::calculate(size_t idx)
     }
     return (this->generation_id >> triplet) & 1;
 }
+
+std::vector<size_t> PLC::Wolfram::getTab()
+{
+    return this->tab;
+}
+
+size_t PLC::Wolfram::getGenerationId()
+{
+    return this->generation_id;
+}

@@ -17,6 +17,7 @@ set(VERSION_PATCH 1)
 
 # executables will be at the root of the folder
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
 
 # options of the project
 option(CAMI_BUILD_TESTS "Build the tests" OFF)
@@ -182,6 +183,9 @@ include_directories(include/)
 add_library(
     cami-core SHARED
     src/launch.cpp
+    PLC/GameOfLife/GameOfLife.cpp
+    PLC/Wolfram/Wolfram.cpp
+    PLC/Lenia/Lenia.cpp
 )
 target_compile_features(cami-core PRIVATE cxx_std_20)
 target_compile_options(cami-core PRIVATE ${WARNING_FLAGS})
@@ -195,25 +199,22 @@ message("${BoldWhite}Finished loading cami-core${ColourReset}")
 
 # add the executable with the main
 add_executable(
-    dcami
+    plugins_cami
     src/main.cpp
-    PLC/GameOfLife/src/GameOfLife.cpp
-    PLC/Wolfram/src/Wolfram.cpp
-    PLC/Lenia/src/Lenia.cpp
 )
 # link the libraries to executable
 target_link_libraries(
-    dcami PRIVATE
+    plugins_cami PRIVATE
     cami-core
     spdlog::spdlog
 )
 if (NOT WIN32)
-    target_link_options(dcami PRIVATE -rdynamic)
+    target_link_options(plugins_cami PRIVATE -rdynamic)
 endif ()
-target_compile_features(dcami PRIVATE cxx_std_20)
-target_compile_options(dcami PRIVATE ${WARNING_FLAGS})
-set_property(TARGET dcami PROPERTY CXX_STANDARD 20)
-set_property(TARGET dcami PROPERTY CXX_STANDARD_REQUIRED ON)
+target_compile_features(plugins_cami PRIVATE cxx_std_20)
+target_compile_options(plugins_cami PRIVATE ${WARNING_FLAGS})
+set_property(TARGET plugins_cami PROPERTY CXX_STANDARD 20)
+set_property(TARGET plugins_cami PROPERTY CXX_STANDARD_REQUIRED ON)
 
 # NOTE run test if option activated
 if (CAMI_BUILD_TESTS)

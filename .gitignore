@@ -32,5 +32,6 @@
 *.app
 
 # project
-dcami
+plugins_cami
+tests_plugins_cami
 build

@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "../../include/PLC.hh"
+#include "PLC.hh"
 
 namespace PLC
 {
@@ -15,6 +15,9 @@ namespace PLC
             Wolfram(std::vector<size_t> tab_init);
             Wolfram(std::vector<size_t> tab_init, size_t generation_id_init);
             ~Wolfram() = default;
+
+            std::vector<size_t> getTab();
+            size_t getGenerationId();
 
             std::vector<Wolfram> activate(size_t nb_loop);
             void run();

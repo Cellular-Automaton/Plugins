@@ -1,2 +1,2 @@
-# Desktop
-Desktop application in c++
+# Plugins
+Plugins application in c++

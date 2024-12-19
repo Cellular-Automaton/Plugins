@@ -2,7 +2,7 @@
 /// main.cpp
 ///
 
-#include "../PLC/Lenia/include/Lenia.hh"
+#include "../PLC/include/Lenia.hh"
 
 int main(int argc, const char **argv)
 {
@@ -34,5 +34,6 @@ int main(int argc, const char **argv)
     result[10].show();
     std::cout << "Last Result (" << result.size() - 1 << "):" << std::endl;
     result[result.size() - 1].show();
+
     return 0;
 }

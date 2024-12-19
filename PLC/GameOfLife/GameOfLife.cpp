@@ -107,3 +107,18 @@ size_t PLC::GameOfLife::calculate(size_t x, size_t y)
 
     return nb_life;
 }
+
+std::vector<std::vector<size_t>> PLC::GameOfLife::getTab()
+{
+    return this->tab;
+}
+
+std::vector<size_t> PLC::GameOfLife::getLife()
+{
+    return this->life;
+}
+
+std::vector<size_t> PLC::GameOfLife::getBorn()
+{
+    return this->born;
+}

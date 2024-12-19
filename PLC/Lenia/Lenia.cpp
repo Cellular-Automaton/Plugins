@@ -5,7 +5,8 @@
 #include <iomanip>
 #include "../include/Lenia.hh"
 
-static void doubleToRGB(double value, int& R, int& G, int& B) {
+static void doubleToRGB(double value, int& R, int& G, int& B)
+{
     value = std::max(0.0, std::min(1.0, value));
 
     if (value < 0.5) {
@@ -19,7 +20,8 @@ static void doubleToRGB(double value, int& R, int& G, int& B) {
     }
 }
 
-static void printColoredDouble(double value) {
+static void printColoredDouble(double value)
+{
     int R, G, B;
     doubleToRGB(value, R, G, B);
 
@@ -28,7 +30,8 @@ static void printColoredDouble(double value) {
               << "\033[0m";
 }
 
-static void printMatrix(std::vector<std::vector<double> > matrix, bool mult = false) {
+static void printMatrix(std::vector<std::vector<double> > matrix, bool mult = false)
+{
     for (size_t i = 0; i < matrix.size(); ++i) {
         for (size_t j = 0; j < matrix[i].size(); ++j) {
             std::cout << " ";
@@ -220,7 +223,6 @@ void PLC::Lenia::run()
 {
     std::vector<std::vector<double> > new_tab = this->tab;
     std::vector<std::vector<double> > u = this->calculate();
-    printMatrix(u, true);
     std::vector<std::vector<double> > growth = this->growthLenia(u);
     for (size_t i = 0; i < new_tab.size(); ++i) {
         for (size_t j = 0; j < new_tab[j].size(); ++j) {
@@ -276,4 +278,29 @@ std::vector<std::vector<double> > PLC::Lenia::calculate()
 void PLC::Lenia::setTime(double new_time)
 {
     this->time = new_time;
+}
+
+std::vector<std::vector<double> > PLC::Lenia::getTab()
+{
+    return this->tab;
+}
+
+std::vector<std::vector<double> > PLC::Lenia::getKernel()
+{
+    return this->kernel;
+}
+
+double PLC::Lenia::getMu()
+{
+    return this->mu;
+}
+
+double PLC::Lenia::getSigma()
+{
+    return this->sigma;
+}
+
+double PLC::Lenia::getTime()
+{
+    return this->time;
 }
