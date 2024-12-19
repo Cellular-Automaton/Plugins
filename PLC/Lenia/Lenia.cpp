@@ -30,7 +30,7 @@ static void printColoredDouble(double value)
               << "\033[0m";
 }
 
-static void printMatrix(std::vector<std::vector<double> > matrix, bool mult = false)
+static void printMatrix(std::vector<std::vector<double>> matrix, bool mult = false)
 {
     for (size_t i = 0; i < matrix.size(); ++i) {
         for (size_t j = 0; j < matrix[i].size(); ++j) {
@@ -47,13 +47,13 @@ static void printMatrix(std::vector<std::vector<double> > matrix, bool mult = fa
     std::cout << std::endl;
 }
 
-std::vector<std::vector<double> > PLC::Lenia::createKernel(int R, double mu, double sigma)
+std::vector<std::vector<double>> PLC::Lenia::createKernel(int R, double mu, double sigma)
 {
     int size = 2 * R;
-    std::vector<std::vector<double> > y(size, std::vector<double>(1));
-    std::vector<std::vector<double> > x(1, std::vector<double>(size));
-    std::vector<std::vector<double> > distance(size, std::vector<double>(size));
-    std::vector<std::vector<double> > result(size, std::vector<double>(size));
+    std::vector<std::vector<double>> y(size, std::vector<double>(1));
+    std::vector<std::vector<double>> x(1, std::vector<double>(size));
+    std::vector<std::vector<double>> distance(size, std::vector<double>(size));
+    std::vector<std::vector<double>> result(size, std::vector<double>(size));
     double sum = 0.0;
 
     for (int i = 0; i < size; i++) {
@@ -86,11 +86,11 @@ std::vector<std::vector<double> > PLC::Lenia::createKernel(int R, double mu, dou
     return result;
 }
 
-std::vector<std::vector<double> > PLC::Lenia::growthLenia(const std::vector<std::vector<double> > u)
+std::vector<std::vector<double>> PLC::Lenia::growthLenia(const std::vector<std::vector<double>> u)
 {
     size_t r_size = u.size();
     size_t c_size = u[0].size();
-    std::vector<std::vector<double> > result(r_size, std::vector<double>(c_size, 0.0));
+    std::vector<std::vector<double>> result(r_size, std::vector<double>(c_size, 0.0));
 
     for (size_t i = 0; i < r_size; ++i) {
         for (size_t j = 0; j < c_size; ++j) {
@@ -181,7 +181,7 @@ PLC::Lenia::Lenia()
     this->time = 0.1;
 }
 
-PLC::Lenia::Lenia(std::vector<std::vector<double> > tab_init)
+PLC::Lenia::Lenia(std::vector<std::vector<double>> tab_init)
 {
     this->tab = std::move(tab_init);
     this->kernel = this->createKernel(13, 0.5, 0.15);
@@ -190,7 +190,7 @@ PLC::Lenia::Lenia(std::vector<std::vector<double> > tab_init)
     this->time = 0.1;
 }
 
-PLC::Lenia::Lenia(std::vector<std::vector<double> > tab_init, int R, double kernel_mu, double kernel_sigma, double growth_mu, double growth_sigma)
+PLC::Lenia::Lenia(std::vector<std::vector<double>> tab_init, int R, double kernel_mu, double kernel_sigma, double growth_mu, double growth_sigma)
 {
     this->tab = std::move(tab_init);
     this->kernel = this->createKernel(R, kernel_mu, kernel_sigma);
@@ -199,7 +199,7 @@ PLC::Lenia::Lenia(std::vector<std::vector<double> > tab_init, int R, double kern
     this->time = 0.1;
 }
 
-PLC::Lenia::Lenia(std::vector<std::vector<double> > tab_init, std::vector<std::vector<double> > kernel_init, double time_init, double growth_mu, double growth_sigma)
+PLC::Lenia::Lenia(std::vector<std::vector<double>> tab_init, std::vector<std::vector<double>> kernel_init, double time_init, double growth_mu, double growth_sigma)
 {
     this->tab = std::move(tab_init);
     this->kernel = std::move(kernel_init);
@@ -221,9 +221,9 @@ std::vector<PLC::Lenia> PLC::Lenia::activate(size_t nb_loop)
 
 void PLC::Lenia::run()
 {
-    std::vector<std::vector<double> > new_tab = this->tab;
-    std::vector<std::vector<double> > u = this->calculate();
-    std::vector<std::vector<double> > growth = this->growthLenia(u);
+    std::vector<std::vector<double>> new_tab = this->tab;
+    std::vector<std::vector<double>> u = this->calculate();
+    std::vector<std::vector<double>> growth = this->growthLenia(u);
     for (size_t i = 0; i < new_tab.size(); ++i) {
         for (size_t j = 0; j < new_tab[j].size(); ++j) {
             new_tab[i][j] += this->time * growth[i][j];
@@ -244,11 +244,11 @@ void PLC::Lenia::show()
     printMatrix(this->tab);
 }
 
-std::vector<std::vector<double> > PLC::Lenia::calculate()
+std::vector<std::vector<double>> PLC::Lenia::calculate()
 {
     size_t kCenterX = this->kernel.size() / 2;
     size_t kCenterY = this->kernel[0].size() / 2;
-    std::vector<std::vector<double> > output(this->tab.size(), std::vector<double>(this->tab[0].size(), 0.0));
+    std::vector<std::vector<double>> output(this->tab.size(), std::vector<double>(this->tab[0].size(), 0.0));
 
     for (size_t i = 0; i < this->tab.size(); ++i) {
         for (size_t j = 0; j < this->tab[i].size(); ++j) {
@@ -280,12 +280,12 @@ void PLC::Lenia::setTime(double new_time)
     this->time = new_time;
 }
 
-std::vector<std::vector<double> > PLC::Lenia::getTab()
+std::vector<std::vector<double>> PLC::Lenia::getTab()
 {
     return this->tab;
 }
 
-std::vector<std::vector<double> > PLC::Lenia::getKernel()
+std::vector<std::vector<double>> PLC::Lenia::getKernel()
 {
     return this->kernel;
 }
