@@ -62,7 +62,7 @@ jobs:
       matrix:
         build: [
           {type: Debug, options: '-DCAMI_BUILD_TESTS=true -DUSE_CLANG_TIDY=false'},
-          {type: tsan, options: '-DUSE_CLANG_TIDY=false -DCAMI_BUILD_BENCHMARKS=true'},
+          {type: Benchmarks, options: '-DCAMI_BUILD_BENCHMARKS=true -DUSE_CLANG_TIDY=false'},
           {type: Release, options: '-DWARNING_FLAGS=-Wall -DUSE_CLANG_TIDY=false'}
         ]
         version: [g++13]
@@ -80,6 +80,8 @@ jobs:
     - name : Install packages
       run: |
           sudo apt-get update -qq
+          sudo apt-get install -y libgtest-dev
+          sudo apt-get install libbenchmark-dev
           sudo apt-get install -y ninja-build clang-tidy-12 ccache
           sudo update-alternatives --install /usr/bin/clang-tidy clang-tidy /usr/bin/clang-tidy-12 100
           sudo apt-get install -y --no-install-recommends libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libdrm-dev libgbm-dev

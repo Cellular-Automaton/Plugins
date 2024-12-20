@@ -34,4 +34,5 @@
 # project
 plugins_cami
 tests_plugins_cami
+benchmarks_plugins_cami
 build

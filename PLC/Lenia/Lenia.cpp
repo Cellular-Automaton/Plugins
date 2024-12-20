@@ -108,9 +108,9 @@ PLC::Lenia::Lenia()
     //     return;
     // }
     // nlohmann::json j;
-    // inputFile >> j;
+    // inputFile > > j;
 
-    // this->tab = j["tab"].get<std::vector<std::vector<double>>>();
+    // this->tab = j["tab"].get<std::vector<std::vector<double> >>();
     // this->kernel = this->createKernel(this->tab = j["r"].get<size_t>(), j["kMu"].get<double>(), j["kSigma"].get<double>());
     // this->mu = j["mu"].get<double>();
     // this->sigma = j["sigma"].get<double>();
@@ -207,6 +207,7 @@ PLC::Lenia::Lenia(std::vector<std::vector<double> > tab_init, std::vector<std::v
     this->sigma = growth_sigma;
     this->time = time_init;
 }
+
 std::vector<PLC::Lenia> PLC::Lenia::activate(size_t nb_loop)
 {
     std::vector<Lenia> result;

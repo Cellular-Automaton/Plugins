@@ -6,6 +6,8 @@ cmake_minimum_required(VERSION 3.12)
 
 enable_testing()
 
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR})
+
 find_package(GTest REQUIRED)
 
 add_executable(
@@ -13,6 +15,7 @@ add_executable(
     test.cpp
     PLC/TestGameOfLife.cpp
     PLC/TestWolfram.cpp
+    PLC/TestLenia.cpp
     )
 target_compile_options(tests_plugins_cami PRIVATE ${WARNING_FLAGS})
 target_include_directories(tests_plugins_cami PUBLIC ${PROJECT_SOURCE_DIR}/PLC/include)

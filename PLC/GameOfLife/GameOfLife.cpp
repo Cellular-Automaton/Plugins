@@ -17,14 +17,14 @@ PLC::GameOfLife::GameOfLife()
     this->born = {3};
 }
 
-PLC::GameOfLife::GameOfLife(std::vector<std::vector<size_t>> tab_init)
+PLC::GameOfLife::GameOfLife(std::vector<std::vector<size_t> > tab_init)
 {
     this->tab = std::move(tab_init);
     this->life = {2, 3};
     this->born = {3};
 }
 
-PLC::GameOfLife::GameOfLife(std::vector<std::vector<size_t>> tab_init, std::vector<size_t> life_init, std::vector<size_t> born_init)
+PLC::GameOfLife::GameOfLife(std::vector<std::vector<size_t> > tab_init, std::vector<size_t> life_init, std::vector<size_t> born_init)
 {
     this->tab = std::move(tab_init);
     this->life = life_init;
@@ -55,7 +55,7 @@ static bool is_in_vector(std::vector<size_t> vec, size_t value)
 
 void PLC::GameOfLife::run()
 {
-    std::vector<std::vector<size_t>> new_tab = this->tab;
+    std::vector<std::vector<size_t> > new_tab = this->tab;
 
     for (size_t i = 0; i < this->tab.size(); ++i) {
         for (size_t j = 0; j < this->tab[0].size(); ++j) {
@@ -108,7 +108,7 @@ size_t PLC::GameOfLife::calculate(size_t x, size_t y)
     return nb_life;
 }
 
-std::vector<std::vector<size_t>> PLC::GameOfLife::getTab()
+std::vector<std::vector<size_t> > PLC::GameOfLife::getTab()
 {
     return this->tab;
 }
