@@ -8,7 +8,7 @@
 using namespace PLC;
 
 TEST(GameOfLifeTest, DefaultConstructor) {
-    std::vector<std::vector<size_t>> tab_expected = {
+    std::vector<std::vector<size_t> > tab_expected = {
     {0, 0, 0, 0, 0},
     {0, 0, 1, 0, 0},
     {0, 0, 1, 0, 0},
@@ -26,7 +26,7 @@ TEST(GameOfLifeTest, DefaultConstructor) {
 }
 
 TEST(GameOfLifeTest, ConstructorWithTabInit) {
-    std::vector<std::vector<size_t>> tab_init = {{0, 0, 0}, {0, 1, 0}, {0, 0, 0}};
+    std::vector<std::vector<size_t> > tab_init = {{0, 0, 0}, {0, 1, 0}, {0, 0, 0}};
     std::vector<size_t> life_expected = {2, 3};
     std::vector<size_t> born_expected = {3};
     GameOfLife g(tab_init);
@@ -37,7 +37,7 @@ TEST(GameOfLifeTest, ConstructorWithTabInit) {
 }
 
 TEST(GameOfLifeTest, ConstructorWithTabInitAndGenerationIdInit) {
-    std::vector<std::vector<size_t>> tab_init = {{0, 0, 0}, {0, 1, 0}, {0, 0, 0}};
+    std::vector<std::vector<size_t> > tab_init = {{0, 0, 0}, {0, 1, 0}, {0, 0, 0}};
     std::vector<size_t> life_init = {4, 3};
     std::vector<size_t> born_init = {1, 9};
     GameOfLife g(tab_init, life_init, born_init);
@@ -48,7 +48,7 @@ TEST(GameOfLifeTest, ConstructorWithTabInitAndGenerationIdInit) {
 }
 
 TEST(GameOfLifeTest, Activate) {
-    std::vector<std::vector<size_t>> tab_expected = {
+    std::vector<std::vector<size_t> > tab_expected = {
     {0, 0, 0, 0, 0},
     {0, 0, 1, 0, 0},
     {0, 0, 1, 0, 0},
@@ -71,7 +71,7 @@ TEST(GameOfLifeTest, Activate) {
 }
 
 TEST(GameOfLifeTest, Calculate) {
-    std::vector<std::vector<size_t>> tab_expected = {
+    std::vector<std::vector<size_t> > tab_expected = {
     {0, 0, 0, 0, 0},
     {0, 0, 1, 0, 0},
     {0, 0, 1, 0, 0},
@@ -97,14 +97,14 @@ TEST(GameOfLifeTest, Calculate) {
 }
 
 TEST(GameOfLifeTest, Run) {
-    std::vector<std::vector<size_t>> result_expected = {
+    std::vector<std::vector<size_t> > result_expected = {
     {0, 0, 0, 0, 0},
     {0, 0, 0, 0, 0},
     {0, 1, 1, 1, 0},
     {0, 0, 0, 0, 0},
     {0, 0, 0, 0, 0}
     };
-    std::vector<std::vector<size_t>> tab_expected = {
+    std::vector<std::vector<size_t> > tab_expected = {
     {0, 0, 0, 0, 0},
     {0, 0, 1, 0, 0},
     {0, 0, 1, 0, 0},

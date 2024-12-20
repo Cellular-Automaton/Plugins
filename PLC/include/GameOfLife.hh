@@ -12,11 +12,11 @@ namespace PLC
     {
         public:
             GameOfLife();
-            GameOfLife(std::vector<std::vector<size_t>> tab_init);
-            GameOfLife(std::vector<std::vector<size_t>> tab_init, std::vector<size_t> life_init, std::vector<size_t> born_init);
+            GameOfLife(std::vector<std::vector<size_t> > tab_init);
+            GameOfLife(std::vector<std::vector<size_t> > tab_init, std::vector<size_t> life_init, std::vector<size_t> born_init);
             ~GameOfLife() = default;
 
-            std::vector<std::vector<size_t>> getTab();
+            std::vector<std::vector<size_t> > getTab();
             std::vector<size_t> getLife();
             std::vector<size_t> getBorn();
 
@@ -26,7 +26,7 @@ namespace PLC
             size_t calculate(size_t x, size_t y);
 
         private:
-            std::vector<std::vector<size_t>> tab;
+            std::vector<std::vector<size_t> > tab;
             std::vector<size_t> life;
             std::vector<size_t> born;
     };

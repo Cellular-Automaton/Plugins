@@ -62,7 +62,7 @@ jobs:
       matrix:
         build: [
           {type: Debug, options: '-DCAMI_BUILD_TESTS=true -DUSE_CLANG_TIDY=false'},
-          {type: tsan, options: '-DUSE_CLANG_TIDY=false -DCAMI_BUILD_BENCHMARKS=true'},
+          {type: Benchmarks, options: '-DCAMI_BUILD_BENCHMARKS=true -DUSE_CLANG_TIDY=false'},
           {type: Release, options: '-DWARNING_FLAGS=-Wall -DUSE_CLANG_TIDY=false'}
         ]
         version: [g++13]

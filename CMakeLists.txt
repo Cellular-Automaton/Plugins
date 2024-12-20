@@ -17,7 +17,7 @@ set(VERSION_PATCH 1)
 
 # executables will be at the root of the folder
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR})
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
+#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
 
 # options of the project
 option(CAMI_BUILD_TESTS "Build the tests" OFF)
@@ -219,7 +219,6 @@ set_property(TARGET plugins_cami PROPERTY CXX_STANDARD_REQUIRED ON)
 # NOTE run test if option activated
 if (CAMI_BUILD_TESTS)
     message("${BoldYellow}Building tests${ColourReset}")
-    set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/tests)
     FetchContent_Declare(
         googletest
         GIT_REPOSITORY "https://github.com/google/googletest.git"

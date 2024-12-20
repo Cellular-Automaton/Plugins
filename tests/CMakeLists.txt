@@ -6,6 +6,8 @@ cmake_minimum_required(VERSION 3.12)
 
 enable_testing()
 
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR})
+
 find_package(GTest REQUIRED)
 
 add_executable(
