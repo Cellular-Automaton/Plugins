@@ -20,13 +20,13 @@ static void doubleToRGB(double value, int& R, int& G, int& B)
     }
 }
 
-static void printColoredDouble(double value)
+static void printColoredDouble(double value, bool mult)
 {
     int R, G, B;
     doubleToRGB(value, R, G, B);
 
     std::cout << "\033[38;2;" << R << ";" << G << ";" << B << "m"
-              << std::fixed << std::setprecision(0) << value
+              << std::fixed << std::setprecision(mult ? 5 : 0) << value
               << "\033[0m";
 }
 
@@ -34,8 +34,8 @@ static void printMatrix(std::vector<std::vector<double> > matrix, bool mult = fa
 {
     for (size_t i = 0; i < matrix.size(); ++i) {
         for (size_t j = 0; j < matrix[i].size(); ++j) {
+            printColoredDouble(matrix[i][j], mult);
             std::cout << " ";
-            printColoredDouble(matrix[i][j] * (mult ? 100 : 1));
         }
         std::cout << std::endl;
         // for (size_t j = 0; j < matrix[0].size(); ++j) {
@@ -242,31 +242,38 @@ void PLC::Lenia::run()
 
 void PLC::Lenia::show()
 {
+    // printMatrix(this->kernel);
     printMatrix(this->tab);
 }
 
 std::vector<std::vector<double> > PLC::Lenia::calculate()
 {
-    size_t kCenterX = this->kernel.size() / 2;
-    size_t kCenterY = this->kernel[0].size() / 2;
-    std::vector<std::vector<double> > output(this->tab.size(), std::vector<double>(this->tab[0].size(), 0.0));
+    int rows = this->tab.size();
+    int cols = this->tab[0].size();
+    int kRows = this->kernel.size();
+    int kCols = this->kernel[0].size();
 
-    for (size_t i = 0; i < this->tab.size(); ++i) {
-        for (size_t j = 0; j < this->tab[i].size(); ++j) {
+    std::vector<std::vector<double> > output(rows, std::vector<double>(cols, 0.0));
+
+    int kCenterX = kCols / 2;
+    if (kCols % 2 == 0) {
+        kCenterX -= 1;
+    }
+    int kCenterY = kRows / 2;
+    if (kRows % 2 == 0) {
+        kCenterY -= 1;
+    }
+
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
             double sum = 0.0;
 
-            for (size_t m = 0; m < this->kernel.size(); ++m) {
-                for (size_t n = 0; n < this->kernel[m].size(); ++n) {
-                    size_t x = (i + m - kCenterX + this->tab.size()) % this->tab.size();
-                    size_t y = (j + n - kCenterY + this->tab[i].size()) % this->tab[i].size();
-                    // if (i == 0 && j == 0) {
-                    //     std::cout << "i = " << i << " j = " << j << std::endl;
-                    //     std::cout << "x = (" << i << " + " << m << " - " << kCenterX << " + " << this->tab.size() << ") % " << this->tab.size() << std::endl;
-                    //     std::cout << "y = (" << j << " + " << n << " - " << kCenterY << " + " << this->tab[i].size() << ") % " << this->tab[i].size() << std::endl;
-                    //     std::cout << "TAB size(" << this->tab.size() << "/" << this->tab[i].size() << ") / x: " << x << " y: " << y << std::endl;
-                    //     std::cout << "KERNEL size(" << this->kernel.size() << "/" << this->kernel[i].size() << ") / m: " << m << " n: " << n << std::endl;
-                    // }
-                    sum += kernel[m][n] * this->tab[x][y];
+            for (int m = 0; m < kRows; ++m) {
+                for (int n = 0; n < kCols; ++n) {
+                    int ii = (i + m - kCenterY + rows) % rows;
+                    int jj = (j + n - kCenterX + cols) % cols;
+
+                    sum += this->kernel[m][n] * this->tab[ii][jj];
                 }
             }
 
