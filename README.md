@@ -6,7 +6,7 @@
 You have to clone the repo
 
 ```bash
-git clone git clone <url-du-repo>
+git clone git clone <repo-url>
 cd Plugins
 ```
 
