@@ -186,6 +186,7 @@ add_library(
     PLC/GameOfLife/GameOfLife.cpp
     PLC/Wolfram/Wolfram.cpp
     PLC/Lenia/Lenia.cpp
+    PLC/MultiCouple/MultiCouple.cpp
 )
 target_compile_features(cami-core PRIVATE cxx_std_20)
 target_compile_options(cami-core PRIVATE ${WARNING_FLAGS})
