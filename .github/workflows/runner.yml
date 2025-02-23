@@ -45,7 +45,7 @@ jobs:
       run: |
         sudo apt-get update -qq
         sudo apt-get install -y clang-tidy ccache
-        sudo update-alternatives --install /usr/bin/clang-tidy clang-tidy /usr/bin/clang-tidy-12 100
+        sudo update-alternatives --install /usr/bin/clang-tidy clang-tidy /usr/bin/clang-tidy 100
         clang++ --version
         clang-tidy --version
     - name: run linter
