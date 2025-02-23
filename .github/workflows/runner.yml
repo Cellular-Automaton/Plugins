@@ -45,10 +45,9 @@ jobs:
       run: |
         sudo apt-get update -qq
         wget https://apt.llvm.org/llvm.sh
-        sudo ./llvm.sh 12
-        chmod +x llvm.sh
-        sudo apt-get install -y clang-tidy-12 ccache
-        sudo update-alternatives --install /usr/bin/clang-tidy clang-tidy /usr/bin/clang-tidy-12 100
+        chmod +x llvm.sh  # Ajoute les permissions d'exécution
+        sudo bash llvm.sh 12  # Exécute le script correctement
+        sudo apt-get install -y clang-tidy-12
         clang++ --version
         clang-tidy --version
     - name: run linter
