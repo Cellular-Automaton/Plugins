@@ -86,7 +86,7 @@ std::vector<std::vector<double>> PLC::Lenia::createKernel(int R, double mu, doub
     return result;
 }
 
-std::vector<std::vector<double>> PLC::Lenia::growthLenia(const std::vector<std::vector<double>> u)
+std::vector<std::vector<double>> PLC::Lenia::growth(const std::vector<std::vector<double>> u)
 {
     size_t r_size = u.size();
     size_t c_size = u[0].size();
@@ -224,7 +224,7 @@ void PLC::Lenia::run()
 {
     std::vector<std::vector<double>> new_tab = this->tab;
     std::vector<std::vector<double>> u = this->calculate();
-    std::vector<std::vector<double>> growth = this->growthLenia(u);
+    std::vector<std::vector<double>> growth = this->growth(u);
     for (size_t i = 0; i < new_tab.size(); ++i) {
         for (size_t j = 0; j < new_tab[j].size(); ++j) {
             new_tab[i][j] += this->time * growth[i][j];

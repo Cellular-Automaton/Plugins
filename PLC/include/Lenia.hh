@@ -30,7 +30,7 @@ namespace PLC
             std::vector<std::vector<double>> calculate();
 
             std::vector<std::vector<double>> createKernel(int R, double mu, double sigma);
-            std::vector<std::vector<double>> growthLenia(const std::vector<std::vector<double>> u);
+            std::vector<std::vector<double>> growth(const std::vector<std::vector<double>> u);
 
         private:
             std::vector<std::vector<double>> tab;

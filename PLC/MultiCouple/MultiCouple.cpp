@@ -132,7 +132,6 @@ static std::vector<std::vector<std::complex<double>>> fft2(std::vector<std::vect
 {
     int size_y = tab.size();
     int size_x = tab[0].size();
-    double PI = 3.14159265358979323846;
     std::vector<std::vector<std::complex<double>>> result(size_y, std::vector<std::complex<double>>(size_x));
     double sign = inverse ? 1.0 : -1.0;
     double norm = inverse ? (1.0 / (size_x * size_y)) : 1.0;
@@ -143,7 +142,7 @@ static std::vector<std::vector<std::complex<double>>> fft2(std::vector<std::vect
 
             for (int y = 0; y < size_y; ++y) {
                 for (int x = 0; x < size_x; ++x) {
-                    double angle = 2.0 * PI * ((u * y / double(size_y)) + (v * x / double(size_x)));
+                    double angle = 2.0 * M_PI * ((u * y / double(size_y)) + (v * x / double(size_x)));
                     std::complex<double> expTerm = std::polar(1.0, sign * angle);
                     sum += tab[y][x] * expTerm;
                 }
@@ -183,7 +182,7 @@ std::vector<std::vector<std::vector<std::complex<double>>>> PLC::MultiCouple::cr
     return result;
 }
 
-std::vector<std::vector<std::vector<double>>> PLC::MultiCouple::growthMultiCouple(const std::vector<std::vector<std::vector<double>>> us)
+std::vector<std::vector<std::vector<double>>> PLC::MultiCouple::growth(const std::vector<std::vector<std::vector<double>>> us)
 {
     std::vector<std::vector<std::vector<double>>> result;
 
@@ -326,7 +325,7 @@ void PLC::MultiCouple::run()
 {
     std::vector<std::vector<double>> new_tab = this->tab;
     std::vector<std::vector<std::vector<double>>> us = this->calculate();
-    std::vector<std::vector<std::vector<double>>> gs = this->growthMultiCouple(us);
+    std::vector<std::vector<std::vector<double>>> gs = this->growth(us);
 
     for (size_t idx = 0; idx < gs.size(); ++idx) {
         for (size_t i = 0; i < new_tab.size(); ++i) {
@@ -353,7 +352,6 @@ std::vector<std::vector<std::vector<double>>> PLC::MultiCouple::calculate()
 {
     int rows = this->tab.size();
     int cols = this->tab[0].size();
-    std::vector<std::vector<double>> U(rows, std::vector<double>(cols, 0.0));
     std::vector<std::vector<std::complex<double>>> X = fft2(double_to_complex(this->tab));
     std::vector<std::vector<std::complex<double>>> mul(rows, std::vector<std::complex<double>>(cols));
     std::vector<std::vector<std::vector<double>>> result;
@@ -366,13 +364,7 @@ std::vector<std::vector<std::vector<double>>> PLC::MultiCouple::calculate()
             }
         }
 
-        std::vector<std::vector<std::complex<double>>> tmp = fft2(mul, true);
-
-        for (size_t i = 0; i < rows; ++i) {
-            for (size_t j = 0; j < cols; ++j) {
-                U[i][j] = tmp[i][j].real();
-            }
-        }
+        std::vector<std::vector<double>> U = complex_to_double(fft2(mul, true));
         result.push_back(U);
     }
     return result;

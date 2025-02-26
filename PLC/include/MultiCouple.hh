@@ -43,7 +43,7 @@ namespace PLC
             std::vector<std::vector<std::vector<double>>> calculate();
 
             std::vector<std::vector<std::vector<std::complex<double>>>> createKernels(int R, std::vector<std::vector<double>> bs, double mu, double sigma);
-            std::vector<std::vector<std::vector<double>>> growthMultiCouple(std::vector<std::vector<std::vector<double>>> u);
+            std::vector<std::vector<std::vector<double>>> growth(std::vector<std::vector<std::vector<double>>> u);
 
         private:
             std::vector<std::vector<double>> tab;

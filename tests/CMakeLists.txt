@@ -17,6 +17,7 @@ add_executable(
     PLC/TestWolfram.cpp
     PLC/TestLenia.cpp
     PLC/TestMultiCouple.cpp
+    PLC/TestMultiChannel.cpp
     )
 target_compile_options(tests_plugins_cami PRIVATE ${WARNING_FLAGS})
 target_include_directories(tests_plugins_cami PUBLIC ${PROJECT_SOURCE_DIR}/PLC/include)
